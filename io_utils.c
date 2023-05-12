@@ -1,4 +1,4 @@
-#include "main.c"
+#include "shell.h"
 
 /**
  * _putchar - write character to standard output

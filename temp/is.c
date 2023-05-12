@@ -13,7 +13,7 @@ int main(void)
 	if (isatty(0))
 		printf("This is from the terminal");
 	else
-		printf("This is a user");
+		printf("This is not from the terminal");
 
 	return (0);
 }
