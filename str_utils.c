@@ -47,9 +47,10 @@ char *strcpy(char *dest, const char *str)
  * @src: source
  * Return: string
  */
-char *strcat(char *dest, const char src)
+char *strcat(char *dest, const char *src)
 {
 	int i, j;
+
 	for (i = 0; dest[i] != '\0'; i++)
 	for (j = 0; src[j] != '\0'; j++)
 	{
@@ -61,14 +62,15 @@ char *strcat(char *dest, const char src)
 
 /**
  * strdup - function to duplicate a string
- * @str - string
- * Return - new_string
+ * @str: string
+ * Return: new_string
  */
-char *strdup(const char* str)
+char *strdup(const char *str)
 {
 	size_t length = strlen(str);
 	char *new_str = malloc(length + 1);
-	if(*new_str = NULL)
+
+	if (new_str == NULL)
 	{
 		return (NULL);
 	}
