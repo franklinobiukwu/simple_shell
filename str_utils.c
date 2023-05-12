@@ -39,3 +39,40 @@ char *strcpy(char *dest, const char *str)
 	*p = '\0';
 	return (dest);
 }
+
+/**
+ * strcat - function to concatenate a string
+ * @dest: destination
+ * @src: source
+ * Return: string
+ */
+char *strcat(char *dest, const char *src)
+{
+	int i, j;
+
+	for (i = 0; dest[i] != '\0'; i++)
+	for (j = 0; src[j] != '\0'; j++)
+	{
+		dest[i + j] = src[j];
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
+
+/**
+ * strdup - function to duplicate a string
+ * @str: string
+ * Return: new_string
+ */
+char *strdup(const char *str)
+{
+	size_t length = strlen(str);
+	char *new_str = malloc(length + 1);
+
+	if (new_str == NULL)
+	{
+		return (NULL);
+	}
+	strcpy(new_str, str);
+	return (new_str);
+}

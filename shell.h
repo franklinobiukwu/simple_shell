@@ -20,6 +20,8 @@ void handle_error(char *msg, int code);
 /*str_utils*/
 size_t _strlen(char *str);
 char *strcpy(char *dest, const char *str);
+char *strcat(char *dest, const char *src);
+char *strdup(const char *str);
 /*io_utils*/
 int _putchar(char c);
 int _puts(char *str);
