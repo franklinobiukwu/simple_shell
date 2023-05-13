@@ -14,7 +14,12 @@ int main(__attribute__((unused))int ac, __attribute__((unused))char **av)
 	if (!isatty(0))
 	{
 		/*non-interractive mode*/
-		printf("Hello, This is non interactive mode.\n");
+
+		/*get tokenized user input*/
+		readline();
+		/*execute user command*/
+		/*exec_builtin(av);*/
+		/*free*/
 	}
 	else
 	{
