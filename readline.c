@@ -3,10 +3,10 @@
 /**
  * readline - read and procees user input for execution
  *
- * Return: void
+ * Return: 1 on success
  */
 
-void readline(void)
+int readline(void)
 {
 	char *lineptr_dup, *lineptr = NULL;
 	char  *token, *delim = " \n";
@@ -47,7 +47,7 @@ void readline(void)
 	}
 	av[counter] = NULL;
 	free(lineptr_dup);/*free(lineptr);*/
-	exec_builtin(av, lineptr);/*execute user command*/
+	return (exec_builtin(av, lineptr));/*execute user command*/
 }
 
 /**

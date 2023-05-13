@@ -25,7 +25,7 @@ char *strdup(const char *str);
 int _putchar(char c);
 int _puts(char *str);
 /*readline*/
-void readline(void);
+int readline(void);
 /*exec_cmd*/
 int exec_builtin(char **av, char *lineptr);
 int exec_exec(char **av, char *lineptr);

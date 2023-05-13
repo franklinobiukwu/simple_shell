@@ -15,11 +15,8 @@ int main(__attribute__((unused))int ac, __attribute__((unused))char **av)
 	{
 		/*non-interractive mode*/
 
-		/*get tokenized user input*/
+		/*get and execute user command*/
 		readline();
-		/*execute user command*/
-		/*exec_builtin(av);*/
-		/*free*/
 	}
 	else
 	{
