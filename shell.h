@@ -15,7 +15,6 @@
 /*PROTOTYPES*/
 
 /*shell*/
-char **readline(void);
 void handle_error(char *msg, int code);
 /*str_utils*/
 size_t _strlen(char *str);
@@ -26,9 +25,10 @@ char *strdup(const char *str);
 int _putchar(char c);
 int _puts(char *str);
 /*readline*/
+void readline(void);
 /*exec_cmd*/
-int exec_builtin(char **av);
-int exec_exec(char **av);
+int exec_builtin(char **av, char *lineptr);
+int exec_exec(char **av, char *lineptr);
 
 /*loop*/
 int loop(void);

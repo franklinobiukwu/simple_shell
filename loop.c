@@ -9,16 +9,16 @@
 int loop(void)
 {
 /*	int i = 0;*/
-	char **av;
+/*	char **av;*/
 	int status = 1;
 
 	do {
 		/*print prompt*/
 		_puts("fsh$ ");
 		/*get tokenized user input*/
-		av = readline();
+		readline();
 		/*execute user command*/
-		exec_builtin(av);
+		/*exec_builtin(av);*/
 	} while (status);
 	return (0);
 }

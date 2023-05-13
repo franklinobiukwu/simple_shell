@@ -3,10 +3,10 @@
 /**
  * readline - read and procees user input for execution
  *
- * Return: pointer to tokemized user input
+ * Return: void
  */
 
-char **readline(void)
+void readline(void)
 {
 	char *lineptr_dup, *lineptr = NULL;
 	char  *token, *delim = " \n";
@@ -14,14 +14,16 @@ char **readline(void)
 	int counter = 0;
 	char **av;
 
-	/*store user input in lineptr*/
-	if (getline(&lineptr, &n, stdin) == -1)
+	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
 		handle_error("getline error", EXIT_FAILURE);
 	/*tokenize user input*/
-	/*--duplicate user command--*/
-	lineptr_dup = strdup(lineptr);
-	/*--count each user input string--*/
-	token = strtok(lineptr_dup, delim);
+	lineptr_dup = strdup(lineptr);/*--duplicate user command--*/
+	if (lineptr_dup == NULL)
+	{
+		free(lineptr);
+		handle_error("strdup error", EXIT_FAILURE);
+	}
+	token = strtok(lineptr_dup, delim);/*--count each user input string--*/
 	while (token)
 	{
 		counter++;
@@ -33,11 +35,10 @@ char **readline(void)
 	{
 		free(lineptr);
 		free(lineptr_dup);
-		handle_error("malloc error", 0);
+		handle_error("malloc error", EXIT_FAILURE);
 	}
 	counter = 0;
-	/*--tokenize user input--*/
-	token = strtok(lineptr, delim);
+	token = strtok(lineptr, delim);/*--tokenize user input--*/
 	while (token)
 	{
 		av[counter] = token;
@@ -45,7 +46,8 @@ char **readline(void)
 		counter++;
 	}
 	av[counter] = NULL;
-	return (av);
+	free(lineptr_dup);/*free(lineptr);*/
+	exec_builtin(av, lineptr);/*execute user command*/
 }
 
 /**
