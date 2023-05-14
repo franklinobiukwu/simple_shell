@@ -50,3 +50,32 @@ int exec_exec(char **av, char *lineptr)
 
 	return (1);
 }
+
+/**
+ *handle_Commandline_Argu - handle command line arguments
+ *@line: input
+ *@args: array of pointer to the string
+ *@Return: length
+ */
+
+int handle_Commandline_Argu(char *line, char **args)
+{
+	int i = 0;
+	char *token, *argu, *cmd;
+
+	argu = line;
+
+	cmd = strtok(line, "\n\t\r ");
+
+	args[i] = cmd;
+
+	while (argu != NULL)
+	{
+		i++;
+		token = strtok(NULL, "\n\t\r");
+		argu = token;
+		args[i] = token;
+	}
+	args[i] = NULL;
+	return (i);
+}

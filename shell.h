@@ -17,10 +17,10 @@
 /*shell*/
 void handle_error(char *msg, int code);
 /*str_utils*/
-size_t _strlen(char *str);
-char *strcpy(char *dest, const char *str);
-char *strcat(char *dest, const char *src);
-char *strdup(const char *str);
+size_t my_strlen(const char *str);
+char *my_strcpy(char *dest, const char *str);
+char *my_strcat(char *dest, const char *src);
+char *my_strdup(const char *str);
 /*io_utils*/
 int _putchar(char c);
 int _puts(char *str);
@@ -29,6 +29,7 @@ int readline(void);
 /*exec_cmd*/
 int exec_builtin(char **av, char *lineptr);
 int exec_exec(char **av, char *lineptr);
+int handle_Commandline_Argu(char *line, char **args);
 
 /*loop*/
 int loop(void);
