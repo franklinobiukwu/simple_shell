@@ -16,6 +16,11 @@ int readline(void)
 
 	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
 		handle_error("getline error", EXIT_FAILURE);
+	if (lineptr[0] == '\n')
+	{
+		free(lineptr);
+		return (1);
+	}
 	/*tokenize user input*/
 	lineptr_dup = strdup(lineptr);/*--duplicate user command--*/
 	if (lineptr_dup == NULL)

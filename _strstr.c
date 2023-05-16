@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * _strstr - finds the first occurrence of the
@@ -13,8 +13,8 @@
 
 char *_strstr(char *haystack, const char *needle)
 {
-	int i, j, hold_i;
-	char *haystack_copy, *substring_ptr, *value;
+	int i;
+	char *haystack_copy;
 
 	/*return NULL if haystack is NULL*/
 	if (haystack == NULL || needle == NULL)
@@ -23,9 +23,9 @@ char *_strstr(char *haystack, const char *needle)
 	haystack_copy = haystack;
 
 	/*compare caracter in haystack with needle*/
-	for(i = 0; haystack_copy[i]; i++)
+	for (i = 0; haystack_copy[i]; i++)
 	{
-		if(haystack_copy[i] == *needle)
+		if (haystack_copy[i] == *needle)
 		{
 			return (haystack_copy + (i + 1));
 		}

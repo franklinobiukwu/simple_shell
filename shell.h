@@ -12,7 +12,11 @@
 #include <sys/types.h>
 #include <wait.h>
 
+extern char **environ;
+
 /*PROTOTYPES*/
+char *_getenv(char *variable);
+char *_strstr(char *haystack, const char *needle);
 
 /*shell*/
 void handle_error(char *msg, int code);
@@ -30,8 +34,14 @@ int readline(void);
 int exec_builtin(char **av, char *lineptr);
 int exec_exec(char **av, char *lineptr);
 int handle_Commandline_Argu(char *line, char **args);
+void freeLAP(char **av, char *lineptr, char *path);
+/*builtin*/
+int _env(__attribute__((unused))char **av);
 
 /*loop*/
 int loop(void);
+/*path*/
+char *setpath(char **av);
+char *check_exec(char **path_arr, char *cmd, char *paths);
 
 #endif
