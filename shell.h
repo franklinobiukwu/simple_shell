@@ -24,12 +24,16 @@ char *my_strdup(const char *str);
 /*io_utils*/
 int _putchar(char c);
 int _puts(char *str);
+int my_strcmp(const char *str1, const char *str2);
 /*readline*/
 void readline(void);
 /*exec_cmd*/
 int exec_builtin(char **av, char *lineptr);
 int exec_exec(char **av, char *lineptr);
 int handle_Commandline_Argu(char *line, char **args);
+/*exec_builtin.c*/
+void my_exit(void);
+void exit_shell(void);
 
 /*loop*/
 int loop(void);
