@@ -18,8 +18,6 @@ extern char **environ;
 char *_getenv(char *variable);
 char *_strstr(char *haystack, const char *needle);
 
-/*shell*/
-void handle_error(char *msg, int code);
 /*str_utils*/
 size_t my_strlen(const char *str);
 char *my_strcpy(char *dest, const char *str);
@@ -30,13 +28,16 @@ int _putchar(char c);
 int _puts(char *str);
 /*readline*/
 int readline(void);
+char **tokenize(char *str, char *delim);
+void handle_error(char *msg, int exit_code);
 /*exec_cmd*/
 int exec_builtin(char **av, char *lineptr);
 int exec_exec(char **av, char *lineptr);
 int handle_Commandline_Argu(char *line, char **args);
 void freeLAP(char **av, char *lineptr, char *path);
 /*builtin*/
-int _env(__attribute__((unused))char **av);
+int _env(char **av, char *lineptr);
+int exit_shell(char **av, char *lineptr);
 
 /*loop*/
 int loop(void);

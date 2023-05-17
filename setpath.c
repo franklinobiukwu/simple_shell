@@ -22,8 +22,8 @@ char *setpath(char **av)
 	/*get PATH value*/
 	paths = getenv("PATH");
 	/*duplicate paths*/
-	paths_copy = strdup(paths);
-	paths_copy_copy = strdup(paths);
+	paths_copy = my_strdup(paths);
+	paths_copy_copy = my_strdup(paths);
 	/*exit if duplicate paths fails*/
 	if (paths_copy == NULL)
 		handle_error("paths duplication failed", EXIT_FAILURE);
@@ -71,16 +71,16 @@ char *check_exec(char **path_arr, char *cmd, char *paths)
 	char *path;
 
 	/*determine length of command*/
-	cmd_len = strlen(cmd);
+	cmd_len = my_strlen(cmd);
 	/*find path to executable*/
 	counter = 0;
 	while (path_arr[counter])
 	{
-		path_len = strlen(path_arr[counter]);
-		path = malloc(sizeof(char) * (path_len + cmd_len + 2));
-		strcat(path, path_arr[counter]);
-		strcat(path, "/");
-		strcat(path, cmd);
+		path_len = my_strlen(path_arr[counter]);
+		path = malloc(sizeof(char) * (path_len + cmd_len + 1));
+		my_strcat(path, path_arr[counter]);
+		my_strcat(path, "/");
+		my_strcat(path, cmd);
 		if (access(path, X_OK) == 0)
 		{
 			free(path_arr);

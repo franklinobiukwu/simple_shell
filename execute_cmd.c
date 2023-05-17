@@ -11,18 +11,18 @@
 
 int exec_builtin(char **av, char *lineptr)
 {
-	char *builtin_str[] = {"env"};
+	char *builtin_str[] = {"env", "exit"};
 	int number_of_builtins, i;
 
 	/*declare array of function pointers*/
-	int (*builtin_func[])(char **) = {&_env};
+	int (*builtin_func[])(char **, char *) = {&_env, &exit_shell};
 
-	number_of_builtins = sizeof(builtin_str)/sizeof(char *);
+	number_of_builtins = sizeof(builtin_str) / sizeof(char *);
 	/*check if builtin*/
-	for(i = 0; i < number_of_builtins; i++)
+	for (i = 0; i < number_of_builtins; i++)
 	{
 		if ((strcmp(av[0], builtin_str[i]) == 0))
-			return ((*builtin_func[i])(av));
+			return ((*builtin_func[i])(av, lineptr));
 	}
 	/*builtin exec*/
 	/*return */
@@ -57,10 +57,7 @@ int exec_exec(char **av, char *lineptr)
 		}
 	}
 	if (flag != 1)
-	{
-		/*find executable*/
-		path = setpath(av);
-	}
+		path = setpath(av);/*find executable*/
 	if (path == NULL)
 	{
 		freeLAP(av, lineptr, path);
@@ -79,19 +76,17 @@ int exec_exec(char **av, char *lineptr)
 	}
 	else
 		wait(&status);
-	free(lineptr);
-	free(av);
+	freeLAP(av, lineptr, NULL);
 	if (flag != 1)
 		free(path);
-
 	return (1);
 }
 
 /**
- *handle_Commandline_Argu - handle command line arguments
- *@line: input
- *@args: array of pointer to the string
- *@Return: length
+ * handle_Commandline_Argu - handle command line arguments
+ * @line: input
+ * @args: array of pointer to the string
+ * Return: length
  */
 
 int handle_Commandline_Argu(char *line, char **args)
@@ -128,7 +123,10 @@ int handle_Commandline_Argu(char *line, char **args)
 
 void freeLAP(char **av, char *lineptr, char *path)
 {
-	free(lineptr);
-	free(av);
-	free(path);
+	if (lineptr != NULL)
+		free(lineptr);
+	if (av != NULL)
+		free(av);
+	if (path != NULL)
+		free(path);
 }

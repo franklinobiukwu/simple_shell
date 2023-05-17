@@ -12,7 +12,7 @@ char *_getenv(char *variable)
 {
 	size_t i, j;
 	char *envstr;
-	size_t len = strlen(variable);
+	size_t len = my_strlen(variable);
 
 	for (i = 0; environ[i]; i++)
 	{
