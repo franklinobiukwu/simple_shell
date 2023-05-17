@@ -12,10 +12,12 @@
 #include <sys/types.h>
 #include <wait.h>
 
-/*PROTOTYPES*/
+extern char **environ;
 
-/*shell*/
-void handle_error(char *msg, int code);
+/*PROTOTYPES*/
+char *_getenv(char *variable);
+char *_strstr(char *haystack, const char *needle);
+
 /*str_utils*/
 size_t my_strlen(const char *str);
 char *my_strcpy(char *dest, const char *str);
@@ -26,16 +28,22 @@ int _putchar(char c);
 int _puts(char *str);
 int my_strcmp(const char *str1, const char *str2);
 /*readline*/
-void readline(void);
+int readline(void);
+char **tokenize(char *str, char *delim);
+void handle_error(char *msg, int exit_code);
 /*exec_cmd*/
 int exec_builtin(char **av, char *lineptr);
 int exec_exec(char **av, char *lineptr);
 int handle_Commandline_Argu(char *line, char **args);
-/*exec_builtin.c*/
-void my_exit(void);
-void exit_shell(void);
+void freeLAP(char **av, char *lineptr, char *path);
+/*builtin*/
+int _env(char **av, char *lineptr);
+int exit_shell(char **av, char *lineptr);
 
 /*loop*/
 int loop(void);
+/*path*/
+char *setpath(char **av);
+char *check_exec(char **path_arr, char *cmd, char *paths);
 
 #endif

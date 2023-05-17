@@ -3,22 +3,19 @@
 /**
  * loop - run continuous loop
  *
- * Return: dky
+ * Return: 0 on success
  */
 
 int loop(void)
 {
-/*	int i = 0;*/
-/*	char **av;*/
 	int status = 1;
 
 	do {
 		/*print prompt*/
-		_puts("fsh$ ");
+		if (isatty(0))
+			_puts("fsh$ ");
 		/*get tokenized user input*/
-		readline();
-		/*execute user command*/
-		/*exec_builtin(av);*/
+		status = readline();
 	} while (status);
 	return (0);
 }

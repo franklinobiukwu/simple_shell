@@ -11,20 +11,17 @@
 
 int main(__attribute__((unused))int ac, __attribute__((unused))char **av)
 {
-	if (!isatty(0))
-	{
+/*	if (!isatty(0))*/
+	/*{*/
 		/*non-interractive mode*/
 
-		/*get tokenized user input*/
-		readline();
-		/*execute user command*/
-		/*exec_builtin(av);*/
-		/*free*/
-	}
-	else
-	{
+		/*get and execute user command*/
+	/*	readline();*/
+/*	}*/
+/*	else*/
+/*	{*/
 		/*interactive mode*/
 		loop();
-	}
+/*	}*/
 	return (0);
 }

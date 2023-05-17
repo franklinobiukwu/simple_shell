@@ -11,7 +11,19 @@
 
 int exec_builtin(char **av, char *lineptr)
 {
+	char *builtin_str[] = {"env", "exit"};
+	int number_of_builtins, i;
+
+	/*declare array of function pointers*/
+	int (*builtin_func[])(char **, char *) = {&_env, &exit_shell};
+
+	number_of_builtins = sizeof(builtin_str) / sizeof(char *);
 	/*check if builtin*/
+	for (i = 0; i < number_of_builtins; i++)
+	{
+		if ((strcmp(av[0], builtin_str[i]) == 0))
+			return ((*builtin_func[i])(av, lineptr));
+	}
 	/*builtin exec*/
 	/*return */
 	return (exec_exec(av, lineptr));
@@ -28,34 +40,53 @@ int exec_builtin(char **av, char *lineptr)
 
 int exec_exec(char **av, char *lineptr)
 {
-	int status;
+	int status, flag = 0;
 	pid_t pid;
-	/*find executable*/
-	/*--check environmental path--*/
+	char *path, *cmd;
+	size_t counter;
+
+	/*set path if command is a path*/
+	cmd = av[0];
+	for (counter = 0; cmd[counter]; counter++)
+	{
+		if (cmd[counter] == '/')
+		{
+			flag = 1;
+			path = cmd;
+			break;
+		}
+	}
+	if (flag != 1)
+		path = setpath(av);/*find executable*/
+	if (path == NULL)
+	{
+		freeLAP(av, lineptr, path);
+		handle_error("command not found", 0);
+		return (1);
+	}
 	/*execute command*/
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(av[0], av, NULL) == -1)
+		if (execve(path, av, NULL) == -1)
 		{
-			free(lineptr);
-			free(av);
+			freeLAP(av, lineptr, path);
 			handle_error("Execution failed", EXIT_FAILURE);
 		}
 	}
 	else
 		wait(&status);
-	free(lineptr);
-	free(av);
-
+	freeLAP(av, lineptr, NULL);
+	if (flag != 1)
+		free(path);
 	return (1);
 }
 
 /**
- *handle_Commandline_Argu - handle command line arguments
- *@line: input
- *@args: array of pointer to the string
- *@Return: length
+ * handle_Commandline_Argu - handle command line arguments
+ * @line: input
+ * @args: array of pointer to the string
+ * Return: length
  */
 
 int handle_Commandline_Argu(char *line, char **args)
@@ -78,4 +109,24 @@ int handle_Commandline_Argu(char *line, char **args)
 	}
 	args[i] = NULL;
 	return (i);
+}
+
+/**
+ * freeLAP - free buffers linepointer, av, and paths
+ *
+ * @lineptr: line pointer
+ * @av: user input
+ * @path: path
+ *
+ * Return: void
+ */
+
+void freeLAP(char **av, char *lineptr, char *path)
+{
+	if (lineptr != NULL)
+		free(lineptr);
+	if (av != NULL)
+		free(av);
+	if (path != NULL)
+		free(path);
 }
