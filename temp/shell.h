@@ -26,7 +26,6 @@ char *my_strdup(const char *str);
 /*io_utils*/
 int _putchar(char c);
 int _puts(char *str);
-int my_strcmp(const char *str1, const char *str2);
 /*readline*/
 int readline(void);
 char **tokenize(char *str, char *delim);
