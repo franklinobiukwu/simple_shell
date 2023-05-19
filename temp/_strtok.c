@@ -44,6 +44,12 @@ char *_strtok(char *str, const char *delim)
 		}
 
 	}
+	if (str[i] == '\0')
+	{
+		updated_str = NULL;
+		token = updated_str;
+		return (token);
+	}
 	return (NULL);
 }
 
