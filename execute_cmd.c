@@ -96,14 +96,14 @@ int handle_Commandline_Argu(char *line, char **args)
 
 	argu = line;
 
-	cmd = strtok(line, "\n\t\r ");
+	cmd = _strtok(line, "\n\t\r ");
 
 	args[i] = cmd;
 
 	while (argu != NULL)
 	{
 		i++;
-		token = strtok(NULL, "\n\t\r");
+		token = _strtok(NULL, "\n\t\r");
 		argu = token;
 		args[i] = token;
 	}

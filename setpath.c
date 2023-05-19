@@ -28,11 +28,11 @@ char *setpath(char **av)
 	if (paths_copy == NULL)
 		handle_error("paths duplication failed", EXIT_FAILURE);
 	/*count directory path in paths*/
-	token = strtok(paths_copy, ":");
+	token = _strtok(paths_copy, ":");
 	while (token)
 	{
 		counter++;
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 	}
 	free(paths_copy);
 	/*create buffer to store each directory path*/
@@ -40,12 +40,12 @@ char *setpath(char **av)
 	if (path_arr == NULL)
 		handle_error("malloc error", EXIT_FAILURE);
 	/*store each directory path to path_arr*/
-	token = strtok(paths_copy_copy, ":");
+	token = _strtok(paths_copy_copy, ":");
 	counter = 0;
 	while (token)
 	{
 		path_arr[counter] = token;
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 		counter++;
 	}
 	path_arr[counter] = NULL;

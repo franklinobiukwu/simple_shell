@@ -14,7 +14,9 @@ int readline(void)
 	char **av;
 
 	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
-		handle_error("getline error", EXIT_FAILURE);
+	{
+		return (0);
+	}
 	if (lineptr[0] == '\n')
 	{
 		free(lineptr);
@@ -48,11 +50,11 @@ char **tokenize(char *str, char *delim)
 		free(str);
 		handle_error("strdup error", EXIT_FAILURE);
 	}
-	token = strtok(str_dup, delim);/*--count each user input string--*/
+	token = _strtok(str_dup, delim);/*--count each user input string--*/
 	while (token)
 	{
 		counter++;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 	}
 	/*--create buffer to store tokenized user input string--*/
 	av = malloc(sizeof(char *) * (counter + 1));
@@ -62,11 +64,11 @@ char **tokenize(char *str, char *delim)
 		handle_error("malloc error", EXIT_FAILURE);
 	}
 	counter = 0;
-	token = strtok(str, delim);/*--tokenize user input--*/
+	token = _strtok(str, delim);/*--tokenize user input--*/
 	while (token)
 	{
 		av[counter] = token;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 		counter++;
 	}
 	av[counter] = NULL;
