@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <wait.h>
+#include <fcntl.h>
 
 extern char **environ;
 
@@ -48,5 +49,8 @@ char *check_exec(char **path_arr, char *cmd, char *paths);
 /*_strtok*/
 char *_strtok(char *str, const char *delim);
 char *skip_preceeding_delim(char *str, const char *delim);
-
+/* _getline */
+ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
+int my_fgetc(FILE *stream);
+int my_fileno(FILE *stream);
 #endif
