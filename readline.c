@@ -3,66 +3,93 @@
 /**
  * readline - read and procees user input for execution
  *
- * Return: void
+ * Return: 1 on success
  */
 
-void readline(void)
+int readline(void)
 {
-	char *lineptr_dup, *lineptr = NULL;
-	char  *token, *delim = " \n";
+	char *lineptr = NULL;
+	char *delim = " \n";
 	size_t n = 0;
-	int counter = 0;
 	char **av;
 
 	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
-		handle_error("getline error", EXIT_FAILURE);
-	/*tokenize user input*/
-	lineptr_dup = strdup(lineptr);/*--duplicate user command--*/
-	if (lineptr_dup == NULL)
+	{
+		return (0);
+	}
+	if (lineptr[0] == '\n')
 	{
 		free(lineptr);
+		return (1);
+	}
+	/*tokenize user input*/
+	av = tokenize(lineptr, delim);
+
+	return (exec_builtin(av, lineptr));/*execute user command*/
+}
+
+/**
+ * tokenize - tokenizes a string
+ *
+ * @str: string to be tokenized
+ * @delim: delimeter
+ *
+ * Return: pointer to tokenized strings
+ */
+
+char **tokenize(char *str, char *delim)
+{
+	char *str_dup, *token;
+	char **av;
+	int counter = 0;
+
+	/*duplicate str*/
+	str_dup = my_strdup(str);
+	if (str_dup == NULL)
+	{
+		free(str);
 		handle_error("strdup error", EXIT_FAILURE);
 	}
-	token = strtok(lineptr_dup, delim);/*--count each user input string--*/
+	token = _strtok(str_dup, delim);/*--count each user input string--*/
 	while (token)
 	{
 		counter++;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 	}
 	/*--create buffer to store tokenized user input string--*/
 	av = malloc(sizeof(char *) * (counter + 1));
 	if (av == NULL)
 	{
-		free(lineptr);
-		free(lineptr_dup);
+		freeLAP(NULL, str, str_dup);
 		handle_error("malloc error", EXIT_FAILURE);
 	}
 	counter = 0;
-	token = strtok(lineptr, delim);/*--tokenize user input--*/
+	token = _strtok(str, delim);/*--tokenize user input--*/
 	while (token)
 	{
 		av[counter] = token;
-		token = strtok(NULL, delim);
+		token = _strtok(NULL, delim);
 		counter++;
 	}
 	av[counter] = NULL;
-	free(lineptr_dup);/*free(lineptr);*/
-	exec_builtin(av, lineptr);/*execute user command*/
+	free(str_dup);/*free(lineptr);*/
+
+	return (av);
 }
 
 /**
  * handle_error - print error message and exit process
  *
  * @msg: error message to be printed
- * @code: exit code
+ * @exit_code: exit code
  *
  * Return: void
  */
 
-void handle_error(char *msg, int code)
+void handle_error(char *msg, int exit_code)
 {
 	perror(msg);
-	if (code == 0)
+	if (exit_code == 0)
 		return;
-	exit(code);
+	exit(exit_code);
 }
