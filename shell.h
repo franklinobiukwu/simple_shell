@@ -49,8 +49,8 @@ char *check_exec(char **path_arr, char *cmd, char *paths);
 /*_strtok*/
 char *_strtok(char *str, const char *delim);
 char *skip_preceeding_delim(char *str, const char *delim);
-/* _getline */
-ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
-int my_fgetc(FILE *stream);
-int my_fileno(FILE *stream);
+/* getline */
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void assign_lineptr(char **lineptr, size_t *n, char *buffer, size_t b);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 #endif
