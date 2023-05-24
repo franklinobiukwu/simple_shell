@@ -1,100 +1,124 @@
 #include "shell.h"
 
+void *my_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void assign_linptr(char **linptr, size_t *n, char *buffer, size_t b);
+ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
+
 /**
- *  my_getline - function to read line of text
- *  @lineptr: size of memory block
- *  @n: pointer to adjust a variable that keeps the array’s size
- *  @stream: stream from which the file will be read
- *Return: number of characters read
+ * my_realloc - Reallocate memeroy block
+ * @ptr: pointer to a memory perviously allocated
+ * @old_size: size in bytes of the allocated space for ptr
+ * @new_size: size in bytes for new memory
+ */
+
+void *my_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+{
+	void *memory;
+	char *ptr_copy, *fill;
+	unsigned int index;
+
+	if (new_size == old_size)
+		return (ptr);
+	if (ptr == NULL)
+	{
+		memory = malloc(new_size);
+		if (memory == NULL)
+			return (NULL);
+
+		return (memory);
+	}
+	ptr_copy = ptr;
+	memory = malloc(sizeof(*ptr_copy) * new_size);
+	if (memory == NULL)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	fill = memory;
+	for (index = 0; index < old_size && index < new_size; index++)
+		fill[index] = *ptr_copy++;
+	free(ptr);
+	return (memory);
+}
+
+/**
+ * assign_linptr - reasinged the linpter variables for my_getline
+ * @linptr: buffer to store an input
+ * @n: size of linptr
+ * @buffer: string to asign to linptr
+ * @b: size of buffer
+ */
+void assign_linptr(char **linptr, size_t *n, char *buffer, size_t b)
+{
+	if (*linptr == NULL)
+	{
+		if (b > 120)
+			*n = b;
+		else
+			*n = 120;
+		*linptr = buffer;
+	}
+	else if (*n < b)
+	{
+		if (b < 120)
+			*n = b;
+		else
+			*n = 120;
+		*linptr = buffer;
+	}
+	else 
+	{
+		my_strcpy(*linptr, buffer);
+		free(buffer);
+	}
+}
+
+/**
+ * my_getlin - reas input from stream
+ * @lineptr: buffer to store input
+ * @n: size of lineptr
+ * @stream: stream to read from
+ * Return: number of bytes read
  */
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
 {
-	size_t bufferSize = 128, i = 0;
-	int c;
-	char *buffer, *newBuffer;
+	static ssize_t input;
+	ssize_t ret;
+	char c = 'x', *buffer;
+	int r;
 
-	if (lineptr == NULL || n == NULL || stream == NULL)
+	if (input == 0)
+		fflush(stream);
+	else
+		return (-1);
+	input = 0;
+	buffer = malloc(sizeof(char) * 120);
+	if (!buffer)
+		return (-1);
+	while (c != '\n')
 	{
-		return (-1); /* argument faild */
-	}
-	buffer = (char *)malloc(bufferSize);
-	if (buffer == NULL)
-	{
-		return (-1); /* memory allocation faild */
-	}
-	while ((c = my_fgetc(stream)) != EOF)
-	{
-		if (i >= bufferSize - 1)
+		r = read(STDIN_FILENO, &c, 1);
+		if (r == -1 || (r == 0 && input == 0))
 		{
-			bufferSize *= 2; /* resize buffer if needed */
-			newBuffer = (char *)realloc(buffer, bufferSize);
-			if (newBuffer == NULL)
-			{
-				free(buffer);
-				return (-1); /* memory reallocation faild */
-			}
-			buffer = newBuffer;
+			free(buffer);
+			return (-1);
 		}
-		buffer[i++] = c;
-		if (c == '\n')
+		if (r == 0 && input != 0)
 		{
-			break; /* reached end of line */
+			input++;
+			break;
 		}
-	}
-	buffer[i] = '\0'; /* terminate the string */
-	*lineptr = buffer;
-	*n = bufferSize;
-	if (i == 0 && c == EOF)
-	{
-		free(buffer);
-		return (-1);/* no characters read */
-	}
-	return (i); /* return number of characters read */
-}
+		if (input >= 120)
+			buffer = my_realloc(buffer, input, input + 1);
 
-/**
- * my_fgetc - function to obtain input from a file single character
- * @stream: pointer to a FILE
- * Return: string
- */
-int my_fgetc(FILE *stream)
-{
-	int fd;
-	unsigned char ch;
-	ssize_t bytes_read;
-
-	if (stream == NULL)
-	{
-		return (EOF);
+		buffer[input] = c;
+		input++;
 	}
-	fd = my_fileno(stream);
-	bytes_read = read(fd, &ch, sizeof(unsigned char));
+	buffer[input] = '\0';
 
-	if (bytes_read == 0)
-	{
-		return (EOF);
-	}
-	else if (bytes_read < 0)
-	{
-		return (EOF);
-	}
-	return (ch);
-}
-
-/**
- * my_fileno - function to describe the file
- * @stream: argument
- * Return: integer
- */
-int my_fileno(FILE *stream)
-{
-	int fd = -1;
-
-	if (stream != NULL)
-	{
-		struct _IO_FILE *file = (struct _IO_FILE *)stream;
-
-		fd = file->_fileno;
-	}
-	return (fd);
+	assign_linptr(lineptr, n, buffer, input);
+	ret = input;
+	if (r != 0)
+		input = 0;
+	return (ret);
 }
