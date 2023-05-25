@@ -3,21 +3,25 @@
 /**
  * loop - run continuous loop
  *
+ * @argv: program name
+ *
  * Return: 0 on success
  */
 
-int loop(void)
+int loop(char *argv)
 {
 	int status = 1;
+	int exec_count = -1;
 
 	environ = make_environ_arr(environ);
 	do {
+		exec_count += 1;
 		/*print prompt*/
 		if (isatty(0))
 			_puts("$ ");
 		/*get tokenized user input*/
-		status = readline();
-		free(environ);
+		status = readline(argv, exec_count);
 	} while (status);
+		free_arr(environ);
 	return (0);
 }

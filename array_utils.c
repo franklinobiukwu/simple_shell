@@ -22,7 +22,7 @@ int count_array_elem(char **arr)
 }
 
 /**
- * free_array - free aarray of strings
+ * free_arr - free aarray of strings
  *
  * @arr: array of strings
  *
@@ -38,6 +38,4 @@ void free_arr(char **arr)
 		free(arr[i]);
 		i++;
 	}
-
-	return;
 }

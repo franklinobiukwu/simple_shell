@@ -37,12 +37,12 @@ int _putchar(char c);
 int _puts(char *str);
 int my_strcmp(const char *str1, const char *str2);
 /*readline*/
-int readline(void);
+int readline(char *argv, int exec_count);
 char **tokenize(char *str, char *delim);
 void handle_error(char *msg, int exit_code);
 /*exec_cmd*/
-int exec_builtin(char **av, char *lineptr);
-int exec_exec(char **av, char *lineptr);
+int exec_builtin(char **av, char *lineptr, char *argv, int exec_count);
+int exec_exec(char **av, char *lineptr, char *argv, int exec_count);
 int handle_Commandline_Argu(char *line, char **args);
 void freeLAP(char **av, char *lineptr, char *path);
 /*builtin*/
@@ -50,7 +50,7 @@ int _env(char **av, char *lineptr);
 int exit_shell(char **av, char *lineptr);
 int _cd(char **av, char *lineptr);
 /*loop*/
-int loop(void);
+int loop(char *argv);
 /*path*/
 char *setpath(char **av);
 char *check_exec(char **path_arr, char *cmd, char *paths);
@@ -70,5 +70,9 @@ char *getenvstr(const char *name);
 /*array_utils*/
 int count_array_elem(char **arr);
 void free_arr(char **arr);
-
+/*error_utils*/
+int handle_error_msg(char *argv, int exec_count, char *cmd, char *msg);
+char *_itoa(int num);
+/*test_utils*/
+void print_arr(char **arr);
 #endif

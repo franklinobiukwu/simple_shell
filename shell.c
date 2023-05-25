@@ -9,9 +9,9 @@
  * Return: 0 on failure
  */
 
-int main(__attribute__((unused))int ac, __attribute__((unused))char **av)
+int main(__attribute__((unused))int ac, char **av)
 {
 
-	loop();
+	loop(av[0]);
 	return (0);
 }

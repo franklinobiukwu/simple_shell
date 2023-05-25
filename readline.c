@@ -3,12 +3,15 @@
 /**
  * readline - read and procees user input for execution
  *
+ * @argv: program name
+ * @exec_count: execution count
+ *
  * Return: 1 on success
  */
 
-int readline(void)
+int readline(char *argv, int exec_count)
 {
-	char *lineptr = NULL;
+	char *lineptr_exec, *lineptr_copy, *lineptr = NULL;
 	char *delim = " \n";
 	size_t n = 0;
 	char **commands, **av;
@@ -23,21 +26,24 @@ int readline(void)
 		free(lineptr);
 		return (1);
 	}
+	lineptr_copy = my_strdup(lineptr);
 	/*tokenize separated commands*/
-	commands = tokenize(lineptr, "&;\n");
+	commands = tokenize(lineptr_copy, "&;\n");
 	/*count commands array element*/
 	command_count = count_array_elem(commands);
 	/*loop through each command and execute*/
+	free(lineptr);
 	for (i = 0; i < command_count; i++)
 	{
 		/*set lineptr to command*/
-		lineptr = my_strdup(commands[i]);
+		lineptr_exec = my_strdup(commands[i]);
 		/*tokenize user input*/
-		av = tokenize(lineptr, delim);
+		av = tokenize(lineptr_exec, delim);
 		/*execute user command*/
-		status = exec_builtin(av, lineptr);
+		status = exec_builtin(av, lineptr_exec, argv, exec_count);
 	}
-	free(commands[i]);
+	free(lineptr_copy);
+	free(commands);
 	if (status == 0)
 		return (0);
 	return (1);
@@ -90,19 +96,4 @@ char **tokenize(char *str, char *delim)
 	free(str_dup);/*free(lineptr);*/
 
 	return (av);
-}
-
-/**
- * handle_error - pprinted
- * @exit_code: exit code
- * @msg: error message
- * Return: void
- */
-
-void handle_error(char *msg, int exit_code)
-{
-	perror(msg);
-	if (exit_code == 0)
-		return;
-	exit(exit_code);
 }

@@ -5,11 +5,13 @@
  *
  * @av: tokonized user commands
  * @lineptr: untokenized user command
+ * @argv: program name
+ * @exec_count: execution count;
  *
  * Return: 1 on success
  */
 
-int exec_builtin(char **av, char *lineptr)
+int exec_builtin(char **av, char *lineptr, char *argv, int exec_count)
 {
 	char *builtin_str[] = {"env", "exit", "cd"};
 	int number_of_builtins, i;
@@ -26,7 +28,7 @@ int exec_builtin(char **av, char *lineptr)
 	}
 	/*builtin exec*/
 	/*return */
-	return (exec_exec(av, lineptr));
+	return (exec_exec(av, lineptr, argv, exec_count));
 }
 
 /**
@@ -34,19 +36,20 @@ int exec_builtin(char **av, char *lineptr)
  *
  * @av: tokenzed user commands
  * @lineptr: untokenized user command
+ * @argv: program name
+ * @exec_count: execution count
  *
  * Return: 1 on success
  */
 
-int exec_exec(char **av, char *lineptr)
+int exec_exec(char **av, char *lineptr, char *argv, int exec_count)
 {
 	int status, flag = 0;
 	pid_t pid;
 	char *path, *cmd;
 	size_t counter;
 
-	/*set path if command is a path*/
-	cmd = av[0];
+	cmd = av[0];/*set path if command is a path*/
 	for (counter = 0; cmd[counter]; counter++)
 	{
 		if (cmd[counter] == '/')
@@ -60,8 +63,8 @@ int exec_exec(char **av, char *lineptr)
 		path = setpath(av);/*find executable*/
 	if (path == NULL)
 	{
+		handle_error_msg(argv, exec_count, av[0], " not found\n");
 		freeLAP(av, lineptr, path);
-		handle_error("./hsh", 0);
 		return (1);
 	}
 	/*execute command*/

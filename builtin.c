@@ -45,7 +45,8 @@ int exit_shell(char **av, char *lineptr)
 /**
  * _cd - change directory of simple shell
  *
- * @arg: argument from user command input
+ * @av: argument from user command input
+ * @lineptr: user input command string
  *
  * Return: 1 on success
  */
