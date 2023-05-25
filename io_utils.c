@@ -31,3 +31,20 @@ int _puts(char *str)
 
 	return (0);
 }
+
+/**
+ * my_strcmp - function to compare string
+ * @str1: input
+ * @str2: input
+ * Return: integer value
+ */
+
+int my_strcmp(const char *str1, const char *str2)
+{
+	while (*str1 && *str2 && (*str1 == *str2))
+	{
+		str1++;
+		str2++;
+	}
+	return (*str1 - *str2);
+}
