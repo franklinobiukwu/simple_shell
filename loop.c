@@ -17,6 +17,7 @@ int loop(void)
 			_puts("$ ");
 		/*get tokenized user input*/
 		status = readline();
+		free_arr(environ);
 	} while (status);
 	return (0);
 }

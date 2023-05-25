@@ -43,7 +43,7 @@ int _setenv(const char *name, const char *value, int overwrite)
 		env_arr[i] = NULL;
 		for (i = 0; environ[i]; i++)
 		{
-			if (strcmp(environ[i], env_str) == 0)
+			if (my_strcmp(environ[i], env_str) == 0)
 				env_pos = i;
 		}
 		env_arr[env_pos] = set_env_str(name, value);

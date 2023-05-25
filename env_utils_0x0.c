@@ -24,7 +24,7 @@ env_l *make_environ(char **str)
 		exit(EXIT_FAILURE);
 	}
 
-	head->env_str = strdup(str[0]);
+	head->env_str = my_strdup(str[0]);
 	head->next = make_environ(str + 1);
 
 	return (head);

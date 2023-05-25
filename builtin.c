@@ -37,5 +37,6 @@ int _env(char **av, char *lineptr)
 int exit_shell(char **av, char *lineptr)
 {
 	freeLAP(av, lineptr, NULL);
+	free_arr(environ);
 	exit(0);
 }

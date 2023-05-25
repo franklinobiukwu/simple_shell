@@ -31,6 +31,7 @@ size_t my_strlen(const char *str);
 char *my_strcpy(char *dest, const char *str);
 char *my_strcat(char *dest, const char *src);
 char *my_strdup(const char *str);
+int my_strcmp(const char *s1, const char *s2);
 /*io_utils*/
 int _putchar(char c);
 int _puts(char *str);
@@ -66,7 +67,8 @@ char *set_env_str(const char *name, const char *value);
 env_l *make_environ(char **str);
 char **make_environ_arr(char **str);
 char *getenvstr(const char *name);
-/*unresolved*/
+/*array_utils*/
 int count_array_elem(char **arr);
+void free_arr(char **arr);
 
 #endif

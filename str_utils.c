@@ -79,3 +79,29 @@ char *my_strdup(const char *str)
 	my_strcpy(new_str, str);
 	return (new_str);
 }
+
+
+/**
+ * my_strcmp - compares two string
+ *
+ * @s1: string 1
+ * @s2: string 2
+ *
+ * Return: 0 if match
+ * greater than 0 if s1 is greater than s2
+ * less than 0 if s1 is less than s2
+ */
+
+int my_strcmp(const char *s1, const char *s2)
+{
+	if (!s1 || !s2)
+		return (-1);
+
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+
+	return (*s1 - *s2);
+}

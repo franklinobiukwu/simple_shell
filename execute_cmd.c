@@ -21,7 +21,7 @@ int exec_builtin(char **av, char *lineptr)
 	/*check if builtin*/
 	for (i = 0; i < number_of_builtins; i++)
 	{
-		if ((strcmp(av[0], builtin_str[i]) == 0))
+		if ((my_strcmp(av[0], builtin_str[i]) == 0))
 			return ((*builtin_func[i])(av, lineptr));
 	}
 	/*builtin exec*/
@@ -61,7 +61,7 @@ int exec_exec(char **av, char *lineptr)
 	if (path == NULL)
 	{
 		freeLAP(av, lineptr, path);
-		handle_error("command not found", 0);
+		handle_error("./hsh", 0);
 		return (1);
 	}
 	/*execute command*/

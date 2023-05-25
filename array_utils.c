@@ -20,3 +20,24 @@ int count_array_elem(char **arr)
 		;
 	return (i);
 }
+
+/**
+ * free_array - free aarray of strings
+ *
+ * @arr: array of strings
+ *
+ * Return: void
+ */
+
+void free_arr(char **arr)
+{
+	int i = 0;
+
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+
+	return;
+}
