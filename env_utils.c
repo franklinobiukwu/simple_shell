@@ -1,33 +1,5 @@
 #include "shell.h"
 
-/**
- * make_environ - set environment (linked list style)
- *
- * @str: pointer to environment
- *
- * Return: pointer to list head
- */
-
-env_l *make_environ(char **str)
-{
-	env_l *head;
-
-	if (!str || !str[0])
-		return (NULL);
-
-	/*memory allocation for the head node*/
-	head = malloc(sizeof(env_l));
-	if (!head)
-	{
-		perror("Memory allocation failed");
-		exit(EXIT_FAILURE);
-	}
-
-	head->env_str = strdup(str[0]);
-	head->next = make_environ(str + 1);
-
-	return (head);
-}
 
 /**
  * _setenv - set new or update environment
@@ -43,45 +15,44 @@ env_l *make_environ(char **str)
 
 int _setenv(const char *name, const char *value, int overwrite)
 {
-	env_l *environ_list_ptr;
-	char *str;
-	int name_len = my_strlen(name);
-	int i, count = 0, flag = 0;
+	char **env_arr;
+	int i, env_pos = 0;
+	char *env_str;
 
-	environ_list_ptr = environ_list;
-
-	/*find if env exist*/
-	while (environ_list_ptr)
+	env_arr = malloc(sizeof(char **));
+	if (env_arr == NULL)
 	{
-		str = environ_list_ptr->env_str;
-		/*check if environment string exist in environ list*/
-		for (i = 0; i < name_len; i++)
+		perror("setenv failed");
+		return (-1);
+	}
+	/*get position of env variable if exist*/
+	env_str = getenvstr(name);
+	/*copy environment to new variable*/
+	for (i = 0; environ[i]; i++)
+	{
+		env_arr[i] = my_strdup(environ[i]);
+	}
+	/*add new environment string if not found in environ*/
+	if (env_str == NULL)
+	{
+		env_arr[i] = set_env_str(name, value);
+		env_arr[i + 1] = NULL;
+	}
+	else if (overwrite != 0)
+	{
+		env_arr[i] = NULL;
+		for (i = 0; environ[i]; i++)
 		{
-			/*
-			 * flag 1 if first character of environment
-			 * string is same as in name
-			 */
-			if (str[0] == name[0])
-				flag = 1;
-			if (str[i] == name[i])
-			{
-				count++;
-				continue;
-			}
-			break;
+			if (strcmp(environ[i], env_str) == 0)
+				env_pos = i;
 		}
-		if (str[i] == '=' && count == name_len && flag == 1 && overwrite != 0)
-		{
-			str = set_env_str(name, value);
-			return (0);
-		}
-		else if (str[i] == '=' && flag == 1 && overwrite == 0)
-			return (0);
-
-		environ_list_ptr = environ_list_ptr->next;
+		env_arr[env_pos] = set_env_str(name, value);
 	}
 
-	return (-1);
+	/*point environ to new environ*/
+	environ = env_arr;
+
+	return (0);
 }
 
 /**

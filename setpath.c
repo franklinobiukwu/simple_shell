@@ -78,7 +78,8 @@ char *check_exec(char **path_arr, char *cmd, char *paths)
 	{
 		path_dir = my_strdup(path_arr[counter]);
 		path_len = my_strlen(path_dir);
-		path = malloc(sizeof(char) * (path_len + cmd_len + 1));
+		path = malloc(sizeof(char) * (path_len + cmd_len + 2));
+		path[0] = '\0';
 		my_strcat(path, path_dir);
 		my_strcat(path, "/");
 		my_strcat(path, cmd);

@@ -37,6 +37,7 @@ int readline(void)
 		/*execute user command*/
 		status = exec_builtin(av, lineptr);
 	}
+	free(commands);
 	if (status == 0)
 		return (0);
 	return (1);

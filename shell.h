@@ -17,7 +17,7 @@
 
 extern char **environ;
 /*struct env_list_s *environ_list;*/
-env_l *environ_list;
+/*env_l *environ_list;*/
 
 /*PROTOTYPES*/
 char *_getenv(char *variable);
@@ -54,9 +54,12 @@ char *check_exec(char **path_arr, char *cmd, char *paths);
 char *_strtok(char *str, const char *delim);
 char *skip_preceeding_delim(char *str, const char *delim);
 /*env_utils*/
-env_l *make_environ(char **str);
 int _setenv(const char *name, const char *value, int overwrite);
 char *set_env_str(const char *name, const char *value);
+/*env_utils_0x0*/
+env_l *make_environ(char **str);
+char **make_environ_arr(char **str);
+char *getenvstr(const char *name);
 /*array_utils*/
 int count_array_elem(char **arr);
 

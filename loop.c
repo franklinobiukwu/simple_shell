@@ -9,6 +9,7 @@
 int loop(void)
 {
 	int status = 1;
+	environ = make_environ_arr(environ);
 
 	do {
 		/*print prompt*/

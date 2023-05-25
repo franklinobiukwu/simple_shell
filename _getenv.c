@@ -10,43 +10,24 @@
 
 char *_getenv(char *variable)
 {
-	size_t i;
+	size_t i, j;
 	char *envstr;
 	size_t len = my_strlen(variable);
-	env_l *environ_list_ptr;
 
-	environ_list_ptr = environ_list;
-
-	while (environ_list_ptr)
+	for (i = 0; environ[i]; i++)
 	{
-		envstr = environ_list_ptr->env_str;
+		envstr = environ[i];
 		/*compare variable with envstr*/
-		for (i = 0; i < len; i++)
+		for (j = 0; j < len; j++)
 		{
-			if (envstr[i] == variable[i])
+			if (envstr[j] == variable[j])
 				continue;
 			break;
 		}
-		/*chaeck if character after variable name is "="*/
-		if (i == len && envstr[i] == '=')
-			return (_strstr(envstr, "="));
-		environ_list_ptr = environ_list_ptr->next;
-	}
-	/*old code*/
-/*	for (i = 0; environ[i]; i++)*/
-/*	{*/
-/*		envstr = environ[i];*/
-		/*compare variable with envstr*/
-/*		for (j = 0; j < len; j++)*/
-/*		{*/
-/*			if (envstr[j] == variable[j])*/
-/*				continue;*/
-/*			break;*/
-/*		}*/
 		/*check if character after variable name is "="*/
-/*		if (j == len && envstr[j] == '=')*/
-/*			return (_strstr(envstr, "="));*/
-/*	}*/
+		if (j == len && envstr[j] == '=')
+			return (_strstr(envstr, "="));
+	}
 
 	return (NULL);
 }

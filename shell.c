@@ -11,7 +11,6 @@
 
 int main(__attribute__((unused))int ac, __attribute__((unused))char **av)
 {
-	environ_list = make_environ(environ);
 
 	loop();
 	return (0);
