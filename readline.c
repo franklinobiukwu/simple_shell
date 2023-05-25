@@ -22,7 +22,7 @@ int readline(char *argv, int exec_count)
 		free(lineptr);
 		return (0);
 	}
-	if (lineptr[0] == '\n')
+	if (lineptr[0] == '\n' || *lineptr == ' ')
 	{
 		free(lineptr);
 		return (1);
