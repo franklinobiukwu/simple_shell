@@ -32,13 +32,12 @@ int readline(void)
 	{
 		/*set lineptr to command*/
 		lineptr = my_strdup(commands[i]);
-		free(commands[i]);
 		/*tokenize user input*/
 		av = tokenize(lineptr, delim);
 		/*execute user command*/
 		status = exec_builtin(av, lineptr);
 	}
-	free_arr(commands);
+	free(commands[i]);
 	if (status == 0)
 		return (0);
 	return (1);

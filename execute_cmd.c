@@ -11,11 +11,11 @@
 
 int exec_builtin(char **av, char *lineptr)
 {
-	char *builtin_str[] = {"env", "exit"};
+	char *builtin_str[] = {"env", "exit", "cd"};
 	int number_of_builtins, i;
 
 	/*declare array of function pointers*/
-	int (*builtin_func[])(char **, char *) = {&_env, &exit_shell};
+	int (*builtin_func[])(char **, char *) = {&_env, &exit_shell, &_cd};
 
 	number_of_builtins = sizeof(builtin_str) / sizeof(char *);
 	/*check if builtin*/

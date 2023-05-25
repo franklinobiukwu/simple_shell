@@ -48,7 +48,7 @@ void freeLAP(char **av, char *lineptr, char *path);
 /*builtin*/
 int _env(char **av, char *lineptr);
 int exit_shell(char **av, char *lineptr);
-
+int _cd(char **av, char *lineptr);
 /*loop*/
 int loop(void);
 /*path*/

@@ -40,3 +40,28 @@ int exit_shell(char **av, char *lineptr)
 	free_arr(environ);
 	exit(0);
 }
+
+
+/**
+ * _cd - change directory of simple shell
+ *
+ * @arg: argument from user command input
+ *
+ * Return: 1 on success
+ */
+
+int _cd(char **av, char *lineptr)
+{
+	if (av[1] == NULL)
+	{
+		perror("cd $HOME yet to be implemented");
+	}
+	else
+	{
+		if (chdir(av[1]) != 0)
+			perror("Change directory error");
+	}
+	freeLAP(av, lineptr, NULL);
+
+	return (1);
+}

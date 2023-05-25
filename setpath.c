@@ -85,10 +85,12 @@ char *check_exec(char **path_arr, char *cmd, char *paths)
 		my_strcat(path, cmd);
 		if (access(path, X_OK) == 0)
 		{
+			free(path_dir);
 			free(path_arr);
 			free(paths);
 			return (path);
 		}
+		free(path_dir);
 		free(path);
 		counter++;
 	}
