@@ -11,7 +11,8 @@ int readline(void)
 	char *lineptr = NULL;
 	char *delim = " \n";
 	size_t n = 0;
-	char **av;
+	char **commands, **av;
+	int command_count, i, status = 1;
 
 	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
 	{
@@ -22,10 +23,24 @@ int readline(void)
 		free(lineptr);
 		return (1);
 	}
-	/*tokenize user input*/
-	av = tokenize(lineptr, delim);
-
-	return (exec_builtin(av, lineptr));/*execute user command*/
+	/*tokenize separated commands*/
+	commands = tokenize(lineptr, "&;\n");
+	/*count commands array element*/
+	command_count = count_array_elem(commands);
+	/*loop through each command and execute*/
+	for (i = 0; i < command_count; i++)
+	{
+		/*set lineptr to command*/
+		lineptr = my_strdup(commands[i]);
+		/*tokenize user input*/
+		av = tokenize(lineptr, delim);
+		/*execute user command*/
+		status = exec_builtin(av, lineptr);
+	}
+	free(commands);
+	if (status == 0)
+		return (0);
+	return (1);
 }
 
 /**
@@ -50,11 +65,11 @@ char **tokenize(char *str, char *delim)
 		free(str);
 		handle_error("strdup error", EXIT_FAILURE);
 	}
-	token = _strtok(str_dup, delim);/*--count each user input string--*/
+	token = strtok(str_dup, delim);/*--count each user input string--*/
 	while (token)
 	{
 		counter++;
-		token = _strtok(NULL, delim);
+		token = strtok(NULL, delim);
 	}
 	/*--create buffer to store tokenized user input string--*/
 	av = malloc(sizeof(char *) * (counter + 1));
@@ -64,11 +79,11 @@ char **tokenize(char *str, char *delim)
 		handle_error("malloc error", EXIT_FAILURE);
 	}
 	counter = 0;
-	token = _strtok(str, delim);/*--tokenize user input--*/
+	token = strtok(str, delim);/*--tokenize user input--*/
 	while (token)
 	{
 		av[counter] = token;
-		token = _strtok(NULL, delim);
+		token = strtok(NULL, delim);
 		counter++;
 	}
 	av[counter] = NULL;
@@ -78,11 +93,9 @@ char **tokenize(char *str, char *delim)
 }
 
 /**
- * handle_error - print error message and exit process
- *
- * @msg: error message to be printed
+ * handle_error - pprinted
  * @exit_code: exit code
- *
+ * @msg: error message
  * Return: void
  */
 

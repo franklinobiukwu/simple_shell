@@ -15,7 +15,12 @@
 #include <signal.h>
 
 
+/*other header file*/
+#include "datatype.h"
+
 extern char **environ;
+/*struct env_list_s *environ_list;*/
+/*env_l *environ_list;*/
 
 /*PROTOTYPES*/
 char *_getenv(char *variable);
@@ -54,4 +59,14 @@ char *skip_preceeding_delim(char *str, const char *delim);
 /* getline */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+/*env_utils*/
+int _setenv(const char *name, const char *value, int overwrite);
+char *set_env_str(const char *name, const char *value);
+/*env_utils_0x0*/
+env_l *make_environ(char **str);
+char **make_environ_arr(char **str);
+char *getenvstr(const char *name);
+/*unresolved*/
+int count_array_elem(char **arr);
+
 #endif

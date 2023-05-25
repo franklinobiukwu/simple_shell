@@ -10,10 +10,11 @@ int loop(void)
 {
 	int status = 1;
 
+	environ = make_environ_arr(environ);
 	do {
 		/*print prompt*/
 		if (isatty(0))
-			_puts("fsh$ ");
+			_puts("$ ");
 		/*get tokenized user input*/
 		status = readline();
 	} while (status);
