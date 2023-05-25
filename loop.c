@@ -13,7 +13,7 @@ int loop(void)
 	do {
 		/*print prompt*/
 		if (isatty(0))
-			_puts("fsh$ ");
+			_puts("$ ");
 		/*get tokenized user input*/
 		status = readline();
 	} while (status);

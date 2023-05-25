@@ -11,7 +11,7 @@
 
 char *_strtok(char *str, const char *delim)
 {
-	static char *updated_str = NULL;
+	static char *updated_str;
 	char *token;
 	int i, j;
 
@@ -46,8 +46,8 @@ char *_strtok(char *str, const char *delim)
 	}
 	if (str[i] == '\0')
 	{
-		updated_str = NULL;
 		token = updated_str;
+		updated_str = NULL;
 		return (token);
 	}
 	return (NULL);

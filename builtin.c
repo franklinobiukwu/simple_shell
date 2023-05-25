@@ -11,13 +11,17 @@
 
 int _env(char **av, char *lineptr)
 {
-	size_t i = 0;
+/*	size_t i = 0;*/
 
-	while (environ[i])
+	env_l *environ_list_ptr;
+
+	environ_list_ptr = environ_list;
+
+	while (environ_list_ptr)
 	{
-		_puts(environ[i]);
+		_puts(environ_list_ptr->env_str);
 		_puts("\n");
-		i++;
+		environ_list_ptr = environ_list_ptr->next;
 	}
 
 	freeLAP(av, lineptr, NULL);

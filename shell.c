@@ -11,17 +11,8 @@
 
 int main(__attribute__((unused))int ac, __attribute__((unused))char **av)
 {
-/*	if (!isatty(0))*/
-	/*{*/
-		/*non-interractive mode*/
+	environ_list = make_environ(environ);
 
-		/*get and execute user command*/
-	/*	readline();*/
-/*	}*/
-/*	else*/
-/*	{*/
-		/*interactive mode*/
-		loop();
-/*	}*/
+	loop();
 	return (0);
 }

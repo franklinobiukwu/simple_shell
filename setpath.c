@@ -20,7 +20,7 @@ char *setpath(char **av)
 	char *cmd = av[0];
 
 	/*get PATH value*/
-	paths = getenv("PATH");
+	paths = _getenv("PATH");
 	/*duplicate paths*/
 	paths_copy = my_strdup(paths);
 	paths_copy_copy = my_strdup(paths);
@@ -68,7 +68,7 @@ char *check_exec(char **path_arr, char *cmd, char *paths)
 {
 	size_t counter = 0;
 	size_t path_len, cmd_len;
-	char *path;
+	char *path, *path_dir;
 
 	/*determine length of command*/
 	cmd_len = my_strlen(cmd);
@@ -76,9 +76,10 @@ char *check_exec(char **path_arr, char *cmd, char *paths)
 	counter = 0;
 	while (path_arr[counter])
 	{
-		path_len = my_strlen(path_arr[counter]);
+		path_dir = my_strdup(path_arr[counter]);
+		path_len = my_strlen(path_dir);
 		path = malloc(sizeof(char) * (path_len + cmd_len + 1));
-		my_strcat(path, path_arr[counter]);
+		my_strcat(path, path_dir);
 		my_strcat(path, "/");
 		my_strcat(path, cmd);
 		if (access(path, X_OK) == 0)
