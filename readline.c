@@ -19,6 +19,7 @@ int readline(char *argv, int exec_count)
 
 	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
 	{
+		free(lineptr);
 		return (0);
 	}
 	if (lineptr[0] == '\n')
