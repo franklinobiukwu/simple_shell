@@ -12,25 +12,27 @@
 int readline(char *argv, int exec_count)
 {
 	char *lineptr_exec, *lineptr_copy, *lineptr = NULL;
-/*	char *lineptr_copy_copy;*/
 	char *delim = " \n";
 	size_t n = 0;
 	char **commands, **av;
-	int command_count, i, status = 1;
+	int fla, command_count, i, status = 1;
 
 	if (getline(&lineptr, &n, stdin) == -1)/*store user input in lineptr*/
 	{
 		free(lineptr);
 		return (0);
 	}
-/*	lineptr_copy_copy = my_strdup(lineptr);*/
-/*	lineptr = skip_preceeding_delim(lineptr_copy_copy, " ");*/
+	fla = is_white_space(lineptr);
+	if (fla == 1)
+	{
+		free(lineptr);
+		return (1);
+	}
 	if (lineptr[0] == '\n')
 	{
 		free(lineptr);
 		return (1);
 	}
-/*	free(lineptr_copy_copy);*/
 	lineptr_copy = my_strdup(lineptr);
 	/*tokenize separated commands*/
 	commands = tokenize(lineptr_copy, "&;\n");
@@ -101,4 +103,34 @@ char **tokenize(char *str, char *delim)
 	free(str_dup);/*free(lineptr);*/
 
 	return (av);
+}
+
+/**
+ * is_white_space - checks if a string is white space only
+ *
+ * @str: string
+ *
+ * Return: 1 if string is whitespace only
+ * 0 if string contains any other characters.
+ */
+
+int is_white_space(char *str)
+{
+	int i, len, flag = 0;
+
+	len = my_strlen(str);
+
+	for (i = 0; i < (len - 1); i++)
+	{
+		if (str[i] == ' ')
+			continue;
+		else
+		{
+			flag = 1;
+			break;
+		}
+	}
+	if (flag == 1)
+		return (0);
+	return (1);
 }

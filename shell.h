@@ -40,6 +40,7 @@ int my_strcmp(const char *str1, const char *str2);
 int readline(char *argv, int exec_count);
 char **tokenize(char *str, char *delim);
 void handle_error(char *msg, int exit_code);
+int is_white_space(char *str);
 /*exec_cmd*/
 int exec_builtin(char **av, char *lineptr, char *argv, int exec_count);
 int exec_exec(char **av, char *lineptr, char *argv, int exec_count);
