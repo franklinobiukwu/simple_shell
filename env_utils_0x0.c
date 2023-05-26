@@ -41,9 +41,11 @@ env_l *make_environ(char **str)
 
 char **make_environ_arr(char **str)
 {
-	char **env_arr;
+	char **env_arr = NULL;
 	int i;
 
+	if (str == NULL)
+		return (NULL);
 	for (i = 0; str[i]; i++)
 		;
 	/*allocate memory for environment variable*/

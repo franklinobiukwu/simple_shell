@@ -12,6 +12,7 @@
 int readline(char *argv, int exec_count)
 {
 	char *lineptr_exec, *lineptr_copy, *lineptr = NULL;
+/*	char *lineptr_copy_copy;*/
 	char *delim = " \n";
 	size_t n = 0;
 	char **commands, **av;
@@ -22,11 +23,14 @@ int readline(char *argv, int exec_count)
 		free(lineptr);
 		return (0);
 	}
-	if (lineptr[0] == '\n' || *lineptr == ' ')
+/*	lineptr_copy_copy = my_strdup(lineptr);*/
+/*	lineptr = skip_preceeding_delim(lineptr_copy_copy, " ");*/
+	if (lineptr[0] == '\n')
 	{
 		free(lineptr);
 		return (1);
 	}
+/*	free(lineptr_copy_copy);*/
 	lineptr_copy = my_strdup(lineptr);
 	/*tokenize separated commands*/
 	commands = tokenize(lineptr_copy, "&;\n");

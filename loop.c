@@ -11,9 +11,8 @@
 int loop(char *argv)
 {
 	int status = 1;
-	int exec_count = -1;
+	int exec_count = 0;
 
-	environ = make_environ_arr(environ);
 	do {
 		exec_count += 1;
 		/*print prompt*/
@@ -22,6 +21,6 @@ int loop(char *argv)
 		/*get tokenized user input*/
 		status = readline(argv, exec_count);
 	} while (status);
-		free_arr(environ);
+
 	return (0);
 }

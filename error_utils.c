@@ -50,6 +50,7 @@ int handle_error_msg(char *argv, int count, char *cmd, char *msg)
 	strcat(msg_buff, ":");
 	strcat(msg_buff, " ");
 	strcat(msg_buff, cmd);
+	strcat(msg_buff, ":");
 	strcat(msg_buff, msg);
 
 	write_count = write(STDERR_FILENO, msg_buff, (total_count + 6));
