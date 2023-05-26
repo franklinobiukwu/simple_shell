@@ -6,29 +6,35 @@
  * @av: tokonized user commands
  * @lineptr: untokenized user command
  * @argv: program name
- * @exec_count: execution count;
+ * @exec_count: execution count
+ * @commands: array of user commands
+ * @lineptr_copy: element of commands array
  *
  * Return: 1 on success
  */
 
-int exec_builtin(char **av, char *lineptr, char *argv, int exec_count)
+int exec_builtin(char **av, char *lineptr, char *argv, int exec_count,
+		char **commands, char *lineptr_copy)
 {
 	char *builtin_str[] = {"env", "exit", "cd"};
 	int number_of_builtins, i;
 
 	/*declare array of function pointers*/
-	int (*builtin_func[])(char **, char *) = {&_env, &exit_shell, &_cd};
+	int (*builtin_func[])(char **, char *, char **, char *) = {
+		&_env, &exit_shell, &_cd};
 
 	number_of_builtins = sizeof(builtin_str) / sizeof(char *);
 	/*check if builtin*/
 	for (i = 0; i < number_of_builtins; i++)
 	{
 		if ((my_strcmp(av[0], builtin_str[i]) == 0))
-			return ((*builtin_func[i])(av, lineptr));
+			return ((*builtin_func[i])(av, lineptr,
+						commands, lineptr_copy));
 	}
 	/*builtin exec*/
 	/*return */
-	return (exec_exec(av, lineptr, argv, exec_count));
+	return (exec_exec(av, lineptr, argv, exec_count,
+				commands, lineptr_copy));
 }
 
 /**
@@ -38,11 +44,14 @@ int exec_builtin(char **av, char *lineptr, char *argv, int exec_count)
  * @lineptr: untokenized user command
  * @argv: program name
  * @exec_count: execution count
+ * @commands: array of user commands
+ * @lineptr_copy: element of commands array
  *
  * Return: 1 on success
  */
 
-int exec_exec(char **av, char *lineptr, char *argv, int exec_count)
+int exec_exec(char **av, char *lineptr, char *argv, int exec_count,
+		char **commands, char *lineptr_copy)
 {
 	int status, flag = 0;
 	pid_t pid;
@@ -64,7 +73,7 @@ int exec_exec(char **av, char *lineptr, char *argv, int exec_count)
 	if (path == NULL)
 	{
 		handle_error_msg(argv, exec_count, av[0], " not found\n");
-		freeLAP(av, lineptr, path);
+		freeLAP(av, commands, lineptr, path, lineptr_copy);
 		return (1);
 	}
 	/*execute command*/
@@ -73,13 +82,13 @@ int exec_exec(char **av, char *lineptr, char *argv, int exec_count)
 	{
 		if (execve(path, av, NULL) == -1)
 		{
-			freeLAP(av, lineptr, path);
+			freeLAP(av, commands, lineptr, path, lineptr_copy);
 			handle_error("Execution failed", EXIT_FAILURE);
 		}
 	}
 	else
 		wait(&status);
-	freeLAP(av, lineptr, NULL);
+	freeLAP(av, commands, lineptr, lineptr_copy, NULL);
 	if (flag != 1)
 		free(path);
 	return (1);
@@ -120,16 +129,23 @@ int handle_Commandline_Argu(char *line, char **args)
  * @lineptr: line pointer
  * @av: user input
  * @path: path
+ * @commands: array of user commands
+ * @lineptr_copy: element of commands array
  *
  * Return: void
  */
 
-void freeLAP(char **av, char *lineptr, char *path)
+void freeLAP(char **av, char **commands, char *lineptr,
+		char *path, char *lineptr_copy)
 {
-	if (lineptr != NULL)
-		free(lineptr);
 	if (av != NULL)
 		free(av);
+	if (commands != NULL)
+		free(commands);
+	if (lineptr != NULL)
+		free(lineptr);
 	if (path != NULL)
 		free(path);
+	if (lineptr_copy != NULL)
+		free(lineptr_copy);
 }

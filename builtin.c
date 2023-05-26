@@ -5,11 +5,13 @@
  *
  * @av: user input comands
  * @lineptr: user input command string
+ * @commands: array of user commands
+ * @lineptr_copy: element of commands array
  *
  * Return: always 1
  */
 
-int _env(char **av, char *lineptr)
+int _env(char **av, char *lineptr, char **commands, char *lineptr_copy)
 {
 	size_t i = 0;
 
@@ -20,7 +22,7 @@ int _env(char **av, char *lineptr)
 		i++;
 	}
 
-	freeLAP(av, lineptr, NULL);
+	freeLAP(av, commands, lineptr, lineptr_copy, NULL);
 
 	return (1);
 }
@@ -30,14 +32,18 @@ int _env(char **av, char *lineptr)
  *
  * @av: tokenized input command
  * @lineptr: user input command string
+ * @commands: array of user commands
+ * @lineptr_copy: element of commands array
  *
  * Return: Always 0
  */
 
-int exit_shell(char **av, char *lineptr)
+int exit_shell(char **av, char *lineptr, char **commands, char *lineptr_copy)
 {
-	freeLAP(av, lineptr, NULL);
-	free_arr(environ);
+	freeLAP(av, commands, lineptr, lineptr_copy, NULL);
+/*	free_arr(environ);*/
+	if (errno != 0)
+		exit(errno);
 	exit(0);
 }
 
@@ -47,11 +53,13 @@ int exit_shell(char **av, char *lineptr)
  *
  * @av: argument from user command input
  * @lineptr: user input command string
+ * @commands: array of user commands
+ * @lineptr_copy: element of commands array
  *
  * Return: 1 on success
  */
 
-int _cd(char **av, char *lineptr)
+int _cd(char **av, char *lineptr, char **commands, char *lineptr_copy)
 {
 	if (av[1] == NULL)
 	{
@@ -62,7 +70,7 @@ int _cd(char **av, char *lineptr)
 		if (chdir(av[1]) != 0)
 			perror("Change directory error");
 	}
-	freeLAP(av, lineptr, NULL);
+	freeLAP(av, commands, lineptr, lineptr_copy, NULL);
 
 	return (1);
 }

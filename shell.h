@@ -30,7 +30,7 @@ char *_strstr(char *haystack, const char *needle);
 size_t my_strlen(const char *str);
 char *my_strcpy(char *dest, const char *str);
 char *my_strcat(char *dest, const char *src);
-char *my_strdup(const char *str);
+char *my_strdup(char *str);
 int my_strcmp(const char *s1, const char *s2);
 /*io_utils*/
 int _putchar(char c);
@@ -42,14 +42,17 @@ char **tokenize(char *str, char *delim);
 void handle_error(char *msg, int exit_code);
 int is_white_space(char *str);
 /*exec_cmd*/
-int exec_builtin(char **av, char *lineptr, char *argv, int exec_count);
-int exec_exec(char **av, char *lineptr, char *argv, int exec_count);
+int exec_builtin(char **av, char *lineptr, char *argv, int exec_count,
+		char **commands, char *lineptr_copy);
+int exec_exec(char **av, char *lineptr, char *argv, int exec_count,
+		char **commands, char *lineptr_copy);
 int handle_Commandline_Argu(char *line, char **args);
-void freeLAP(char **av, char *lineptr, char *path);
+void freeLAP(char **av, char **commands, char *lineptr,
+		char *path, char *lineptr_copy);
 /*builtin*/
-int _env(char **av, char *lineptr);
-int exit_shell(char **av, char *lineptr);
-int _cd(char **av, char *lineptr);
+int _env(char **av, char *lineptr, char **commands, char *lineptr_copy);
+int exit_shell(char **av, char *lineptr, char **commands, char *lineptr_copy);
+int _cd(char **av, char *lineptr, char **commands, char *lineptr_copy);
 /*loop*/
 int loop(char *argv);
 /*path*/

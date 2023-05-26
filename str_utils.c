@@ -67,10 +67,10 @@ char *my_strcat(char *dest, const char *src)
  * @str: string
  * Return: new_string
  */
-char *my_strdup(const char *str)
+char *my_strdup(char *str)
 {
 	size_t length = my_strlen(str);
-	char *new_str = malloc(length + 1);
+	char *new_str = malloc(sizeof(char) * (length + 1));
 
 	if (new_str == NULL)
 	{

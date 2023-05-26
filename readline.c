@@ -47,13 +47,10 @@ int readline(char *argv, int exec_count)
 		/*tokenize user input*/
 		av = tokenize(lineptr_exec, delim);
 		/*execute user command*/
-		status = exec_builtin(av, lineptr_exec, argv, exec_count);
+		status = exec_builtin(av, lineptr_exec, argv, exec_count,
+				commands, lineptr_copy);
 	}
-	free(lineptr_copy);
-	free(commands);
-	if (status == 0)
-		return (0);
-	return (1);
+	return (status);
 }
 
 /**
@@ -88,7 +85,7 @@ char **tokenize(char *str, char *delim)
 	av = malloc(sizeof(char *) * (counter + 1));
 	if (av == NULL)
 	{
-		freeLAP(NULL, str, str_dup);
+		freeLAP(NULL, NULL, str, str_dup, NULL);
 		handle_error("malloc error", EXIT_FAILURE);
 	}
 	counter = 0;
