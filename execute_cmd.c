@@ -74,7 +74,7 @@ int exec_exec(char **av, char *lineptr, char *argv, int exec_count,
 	{
 		handle_error_msg(argv, exec_count, av[0], " not found\n");
 		freeLAP(av, commands, lineptr, path, lineptr_copy);
-		return (1);
+		exit(127);
 	}
 	/*execute command*/
 	pid = fork();

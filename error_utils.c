@@ -39,7 +39,7 @@ int handle_error_msg(char *argv, int count, char *cmd, char *msg)
 	int total_count = argv_count + cmd_count + msg_count + num_count;
 
 	/*create memory to store message*/
-	msg_buff = malloc(sizeof(char *) * total_count + 6);
+	msg_buff = malloc(sizeof(char *) * total_count + 5);
 	if (msg_buff == NULL)
 		handle_error("handle error", 0);
 	/*copy values to buff*/
@@ -53,7 +53,7 @@ int handle_error_msg(char *argv, int count, char *cmd, char *msg)
 	strcat(msg_buff, ":");
 	strcat(msg_buff, msg);
 
-	write_count = write(STDERR_FILENO, msg_buff, (total_count + 6));
+	write_count = write(STDERR_FILENO, msg_buff, (total_count + 5));
 
 	free(num_str);
 	free(msg_buff);
